@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ programme.nom }} - Technova{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>{{ programme.nom }}</h2>
+            <p><strong>Type :</strong> {{ programme.type_programme.nom }} | <strong>Durée :</strong> {{ programme.duree }}</p>
+        </div>
+
+        {% if programme.image %}
+            <img src="{{ programme.image.url }}" alt="{{ programme.nom }}" style="width:100%; max-width:500px; border-radius:10px; margin-bottom:20px;">
+        {% endif %}
+
+        <div class="mvv-card">
+            <h3>Description</h3>
+            <p>{{ programme.description }}</p>
+        </div>
+
+        <div class="mvv-card">
+            <h3>Objectifs Généraux</h3>
+            <p>{{ programme.objectifs_generaux }}</p>
+        </div>
+
+        <div class="mvv-card">
+            <h3>Objectifs Spécifiques</h3>
+            <p>{{ programme.objectifs_specifiques }}</p>
+        </div>
+
+        {% if programme.prerequis %}
+        <div class="mvv-card">
+            <h3>Prérequis</h3>
+            <p>{{ programme.prerequis }}</p>
+        </div>
+        {% endif %}
+
+        <div class="mvv-card">
+            <h3>Modules</h3>
+            <ul>
+                {% for module in programme.modules.all %}
+                    <li><strong>Module {{ module.numero }}:</strong> {{ module.titre }} {% if module.duree %}({{ module.duree }}){% endif %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if programme.specialisations.all %}
+        <div class="mvv-card">
+            <h3>Spécialisations</h3>
+            <ul>
+                {% for spec in programme.specialisations.all %}
+                    <li><strong>{{ spec.nom }}</strong>: {{ spec.description }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

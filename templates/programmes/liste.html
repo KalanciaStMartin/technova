@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Programmes - Technova{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Nos Programmes</h2>
+            <p>Découvrez toutes nos formations et choisissez celle qui vous convient.</p>
+        </div>
+
+        <div class="row">
+            {% for programme in programmes %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="mvv-card">
+                    {% if programme.image %}
+                        <img src="{{ programme.image.url }}" alt="{{ programme.nom }}" style="width:100%; border-radius: 10px; margin-bottom:15px;">
+                    {% endif %}
+                    <h3>{{ programme.nom }}</h3>
+                    <p><strong>Type :</strong> {{ programme.type_programme.nom }}</p>
+                    <p><strong>Durée :</strong> {{ programme.duree }}</p>
+                    <a href="{% url 'programmes:detail' programme.id %}" class="btn btn-primary mt-2">Voir le programme</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

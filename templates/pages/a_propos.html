@@ -1,0 +1,576 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Technova - À Propos{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --bleu-principal: #0057B8;
+        --orange-energie: #F58220;
+        --gris-clair: #f8f9fa;
+        --noir: #333333;
+        --blanc: #ffffff;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--noir);
+        background: var(--gris-clair);
+    }
+
+    .hero-about {
+        background: linear-gradient(135deg, var(--bleu-principal) 0%, #003d82 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-about .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-about h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        animation: slideInDown 1s ease-out;
+    }
+
+    .hero-about p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+        animation: slideInUp 1s ease-out 0.3s both;
+    }
+
+    .about-section {
+        padding: 80px 0;
+        background: white;
+        margin-bottom: 2px;
+    }
+
+    .about-section:nth-child(even) {
+        background: var(--gris-clair);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--bleu-principal);
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-header h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: var(--orange-energie);
+        border-radius: 2px;
+    }
+
+    .section-header p {
+        font-size: 1.1rem;
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .mvv-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+    }
+
+    .mvv-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 87, 184, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mvv-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--bleu-principal), var(--orange-energie));
+    }
+
+    .mvv-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 87, 184, 0.15);
+    }
+
+    .mvv-card .icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--bleu-principal), var(--orange-energie));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+        color: white;
+        font-size: 2rem;
+    }
+
+    .mvv-card h3 {
+        font-size: 1.5rem;
+        color: var(--bleu-principal);
+        margin-bottom: 20px;
+    }
+
+    .mvv-card p {
+        color: #666;
+        line-height: 1.7;
+    }
+
+    .director-message {
+        background: linear-gradient(135deg, var(--bleu-principal), #003d82);
+        color: white;
+        padding: 80px 0;
+    }
+
+    .director-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .director-photo img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        border: 6px solid var(--orange-energie);
+        object-fit: cover;
+    }
+
+    .director-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        font-style: italic;
+    }
+
+    /* pour valeurs */
+    /* Container de toutes les valeurs */
+    .values-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    /* Chaque valeur */
+    .value-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 25px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .value-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 87, 184, 0.15);
+    }
+
+    /* Icon de la valeur */
+    .value-item .icon {
+        width: 50px;
+        height: 50px;
+        background: #F58220;
+        /* couleur orange */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    /* Texte */
+    .value-item h4 {
+        color: #0057B8;
+        /* bleu principal */
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+
+    .value-item p {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-about h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-about p {
+            font-size: 1.1rem;
+        }
+
+        .mvv-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .director-content {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: center;
+        }
+    }
+    /* organigramme */
+    /* Organigramme Technova */
+.organigramme {
+    background: #f8f9fa; /* gris clair de fond */
+    padding: 40px 20px;
+    border-radius: 15px;
+    margin-top: 40px;
+}
+
+/* Chaque niveau */
+.org-level {
+    margin-bottom: 40px;
+}
+
+/* Conteneur des boîtes pour un niveau */
+.org-boxes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Boîte individuelle */
+.org-box {
+    background: linear-gradient(135deg, #0057B8, #003d82); /* bleu principal */
+    color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 200px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Boîte Directeur */
+.org-box.director {
+    background: linear-gradient(135deg, #F58220, #e06b00); /* orange énergie */
+    box-shadow: 0 8px 25px rgba(245, 130, 32, 0.3);
+}
+
+/* Titres dans les boîtes */
+.org-box h4 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* Paragraphes dans les boîtes */
+.org-box p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Hover effect */
+.org-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 87, 184, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .org-boxes {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .org-box {
+        min-width: 100%;
+    }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero-about">
+    <div class="container">
+        <h1>À Propos de Technova</h1>
+        <p>Découvrez notre mission, vision et valeurs qui font de Technova un établissement d’excellence en informatique
+            et technologie.</p>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Notre Identité</h2>
+            <p>Ce qui nous guide dans notre mission éducative</p>
+        </div>
+        <div class="mvv-grid">
+            <div class="mvv-card">
+                <div class="icon"><i class="fas fa-bullseye"></i></div>
+                <h3>Notre Mission</h3>
+                <p>
+                    Former des professionnels compétents, créatifs et innovants dans les domaines des technologies de
+                    l'information, du développement logiciel, des réseaux et systèmes, ainsi que des énergies
+                    renouvelables.
+                    <p>Nous nous engageons à offrir une formation pratique et de qualité, adaptée aux besoins du marché du
+                    travail, et à développer chez nos étudiants l’esprit d’analyse, la rigueur professionnelle et la
+                    capacité à innover dans des projets concrets.</p>
+                    <p>Notre objectif est de préparer chaque étudiant à relever les défis technologiques actuels et futurs,
+                    tout en contribuant activement au développement socio-économique d’Haïti et à l’émergence d’une
+                    nouvelle génération de leaders dans le secteur numérique.</p>
+                </p>
+            </div>
+
+            <div class="mvv-card">
+                <div class="icon"><i class="fas fa-eye"></i></div>
+                <h3>Notre Vision</h3>
+
+                <p>La vision de Technova est de devenir un centre de référence en formation technique,
+                    technologique et entrepreneuriale, reconnu pour la qualité de ses enseignements, son approche
+                    innovante et son impact réel sur l’employabilité des jeunes et le développement du pays.</p>
+
+                <p>L’institution aspire à former une génération de professionnels compétents, créatifs et responsables,
+                    capables de bâtir des solutions durables et de contribuer activement à la transformation numérique
+                    et socio-économique d’Haïti.</p>
+
+                <p>Technova souhaite :</p>
+                <ul>
+                    <li>Être un pôle d’innovation et d’excellence éducative</li>
+                    <li>Devenir le premier choix des jeunes qui recherchent une formation pratique et orientée vers
+                        l’emploi</li>
+                    <li>Renforcer les compétences numériques et entrepreneuriales dans la société</li>
+                    <li>Créer un lien fort entre l’école et le monde professionnel</li>
+                    <li>S’imposer comme un acteur clé du développement local et national</li>
+                </ul>
+            </div>
+
+
+
+
+        </div>
+        <div class="mvv-card m-4">
+            <div class="icon"><i class="fas fa-heart"></i></div>
+            <h3>Nos Valeurs</h3>
+            <div class="values-list">
+                <div class="value-item">
+                    <div class="icon"><i class="fas fa-star"></i></div>
+                    <div>
+                        <h4>Excellence</h4>
+                        <p>Qualité et rigueur dans toutes nos formations.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                    <div>
+                        <h4>Innovation</h4>
+                        <p>Créativité et adoption des nouvelles technologies.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="icon"><i class="fas fa-handshake"></i></div>
+                    <div>
+                        <h4>Engagement</h4>
+                        <p>Responsabilité sociale et professionnelle.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="icon"><i class="fas fa-users"></i></div>
+                    <div>
+                        <h4>Collaboration</h4>
+                        <p>Travail d’équipe et partage des connaissances.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="icon"><i class="fas fa-balance-scale"></i></div>
+                    <div>
+                        <h4>Éthique</h4>
+                        <p>Respect des principes moraux et transparence dans toutes nos actions.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="icon"><i class="fas fa-recycle"></i></div>
+                    <div>
+                        <h4>Responsabilité</h4>
+                        <p>Agir de manière responsable et durable dans tous nos projets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Historique -->
+<section class="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Notre Historique</h2>
+            <p>Un parcours d'excellence et d'innovation depuis la création de Technova</p>
+        </div>
+
+        <div class="mvv-card">
+            <div class="icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3>Notre Histoire</h3>
+            <p>
+                Technova est née de la vision commune de ses fondateurs, qui souhaitaient créer un établissement moderne et innovant, capable de répondre aux besoins croissants en compétences techniques et professionnelles en Haïti. 
+                Depuis sa création, Technova s’est donné pour mission de former des jeunes compétents, créatifs et responsables, aptes à relever les défis du marché du travail et à contribuer au développement socio-économique du pays.
+            </p>
+            <p>
+                <strong>Étapes clés de notre évolution :</strong><br>
+                • <strong>Fondation :</strong> Création de Technova avec une vision d’innovation et d’excellence dans la formation technique et professionnelle.<br>
+                • <strong>Développement des programmes :</strong> Mise en place de filières pratiques et orientées vers l’emploi, incluant la programmation, le développement logiciel, le web, les réseaux, la cybersécurité, l’entrepreneuriat et le multimédia.<br>
+                • <strong>Expansion et impact :</strong> Ouverture à un large public, accompagnement des étudiants vers des projets innovants et partenariats avec des entreprises pour stages et emplois.<br>
+                • <strong>Pôles technologiques :</strong> Lancement de départements spécialisés pour répondre aux besoins numériques et technologiques actuels, avec un accent sur la pratique et l’innovation.
+            </p>
+            <p>
+                Aujourd’hui, Technova est reconnue comme une institution de référence, combinant qualité pédagogique, innovation et engagement pour la réussite des étudiants. L’établissement continue de se développer pour devenir un leader de la formation professionnelle et technologique en Haïti et dans la région.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="director-message">
+    <div class="container">
+        <div class="director-content">
+            <div class="director-photo fluid">
+                <img src="{% static 'images/directeur.jpg' %}" alt="Directeur Technova">
+                <h3>Ing. Despinasse</h3>
+                <p>Directeur Général</p>
+            </div>
+            <div class="director-text">
+                <p>Bienvenue chez Technova ! Nous formons la prochaine génération de leaders en informatique et
+                    technologie, avec une approche pratique et innovante adaptée aux défis du marché. Ensemble,
+                    construisons votre avenir numérique.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Organigramme -->
+<section class="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Notre Organisation</h2>
+            <p>Une structure organisationnelle optimisée pour votre réussite</p>
+        </div>
+
+        <div class="organigramme">
+            <!-- Niveau Direction Générale -->
+            <div class="org-level">
+                <div class="org-boxes">
+                    <div class="org-box director">
+                        <h4>Direction Générale</h4>
+                        <p>Ing. Despinasse</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Niveau Directions principales -->
+            <div class="org-level">
+                <div class="org-boxes">
+                    <div class="org-box">
+                        <h4>Direction Académique</h4>
+                        <p>Programmes & Pédagogie</p>
+                    </div>
+                    <div class="org-box">
+                        <h4>Direction Administrative</h4>
+                        <p>Gestion & Finances</p>
+                    </div>
+                    <div class="org-box">
+                        <h4>Direction Technique</h4>
+                        <p>Infrastructure & IT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Niveau Départements -->
+            <div class="org-level">
+                <div class="org-boxes">
+                    <div class="org-box">
+                        <h4>Département IT</h4>
+                        <p>Développement & Réseaux</p>
+                    </div>
+                    <div class="org-box">
+                        <h4>Département Énergies</h4>
+                        <p>Renouvelables & Durables</p>
+                    </div>
+                    <div class="org-box">
+                        <h4>Relations Étudiantes</h4>
+                        <p>Accompagnement & Stages</p>
+                    </div>
+                    <div class="org-box">
+                        <h4>Recherche & Innovation</h4>
+                        <p>R&D & Projets</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
