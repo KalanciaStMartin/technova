@@ -1,8 +1,7 @@
+
 from django.db import models
-
-# Create your models here.
-
-
+from django.urls import reverse
+from django.contrib.auth.models import User
 class TypeProgramme(models.Model):
     """Type de formation: Diplôme, Certificat, Séminaire"""
     nom = models.CharField(max_length=100)  # Ex: "Formation longue", "Formation courte"

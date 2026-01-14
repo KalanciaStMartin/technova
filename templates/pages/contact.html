@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - TechNova{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5">Contactez-nous</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Informations de contact</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Delmas, Port-au-Prince, Haïti</p>
+            <p><i class="fas fa-phone"></i> +509 XXXX XXXX</p>
+            <p><i class="fas fa-envelope"></i> contact@technova.edu.ht</p>
+        </div>
+        <div class="col-md-6">
+            <h3>Envoyez-nous un message</h3>
+            <form>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Votre nom">
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Votre email">
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" rows="5" placeholder="Votre message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

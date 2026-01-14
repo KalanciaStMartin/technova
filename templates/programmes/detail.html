@@ -1,61 +1,101 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}{{ programme.nom }} - Technova{% endblock %}
+{% block title %}{{ programme.nom }} - TechNova{% endblock %}
 
 {% block content %}
-<section class="about-section">
-    <div class="container">
-        <div class="section-header">
-            <h2>{{ programme.nom }}</h2>
-            <p><strong>Type :</strong> {{ programme.type_programme.nom }} | <strong>Durée :</strong> {{ programme.duree }}</p>
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'accueil' %}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'liste_programmes' %}">Programmes</a></li>
+            <li class="breadcrumb-item active">{{ programme.nom }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ programme.nom }}</h1>
+            <p class="lead"><span class="badge bg-primary">{{ programme.type_programme }}</span></p>
+            
+            {% if programme.image %}
+            <img src="{{ programme.image.url }}" class="img-fluid rounded mb-4" alt="{{ programme.nom }}">
+            {% endif %}
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5><i class="fas fa-info-circle text-primary"></i> Description</h5>
+                    <p>{{ programme.description }}</p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5><i class="fas fa-bullseye text-success"></i> Objectifs Généraux</h5>
+                    <p>{{ programme.objectifs_generaux|linebreaks }}</p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5><i class="fas fa-check-circle text-info"></i> Objectifs Spécifiques</h5>
+                    <p>{{ programme.objectifs_specifiques|linebreaks }}</p>
+                </div>
+            </div>
+            
+            {% if programme.modules.all %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5><i class="fas fa-book text-warning"></i> Modules du Programme</h5>
+                    <ol>
+                        {% for module in programme.modules.all %}
+                        <li class="mb-2">
+                            <strong>{{ module.titre }}</strong>
+                            {% if module.duree %}<span class="text-muted">({{ module.duree }})</span>{% endif %}
+                            <p class="mb-0">{{ module.description }}</p>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if programme.specialisations.all %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5><i class="fas fa-star text-warning"></i> Spécialisations</h5>
+                    <ul>
+                        {% for spec in programme.specialisations.all %}
+                        <li><strong>{{ spec.nom }}</strong> - {{ spec.description }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
         </div>
-
-        {% if programme.image %}
-            <img src="{{ programme.image.url }}" alt="{{ programme.nom }}" style="width:100%; max-width:500px; border-radius:10px; margin-bottom:20px;">
-        {% endif %}
-
-        <div class="mvv-card">
-            <h3>Description</h3>
-            <p>{{ programme.description }}</p>
+        
+        <div class="col-md-4">
+            <div class="card sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title">Informations</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-clock text-primary"></i> <strong>Durée:</strong> {{ programme.duree }}</li>
+                        <li class="mb-2"><i class="fas fa-calendar text-success"></i> <strong>Volume horaire:</strong> {{ programme.volume_horaire_min }}h - {{ programme.volume_horaire_max }}h</li>
+                        {% if programme.prerequis %}
+                        <li class="mb-2"><i class="fas fa-clipboard-check text-info"></i> <strong>Prérequis:</strong> {{ programme.prerequis }}</li>
+                        {% endif %}
+                    </ul>
+                    
+                    <hr>
+                    
+                    <a href="{% url 'inscription' %}" class="btn btn-primary w-100 mb-2">
+                        <i class="fas fa-user-plus"></i> S'inscrire
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-secondary w-100">
+                        <i class="fas fa-envelope"></i> Nous contacter
+                    </a>
+                </div>
+            </div>
         </div>
-
-        <div class="mvv-card">
-            <h3>Objectifs Généraux</h3>
-            <p>{{ programme.objectifs_generaux }}</p>
-        </div>
-
-        <div class="mvv-card">
-            <h3>Objectifs Spécifiques</h3>
-            <p>{{ programme.objectifs_specifiques }}</p>
-        </div>
-
-        {% if programme.prerequis %}
-        <div class="mvv-card">
-            <h3>Prérequis</h3>
-            <p>{{ programme.prerequis }}</p>
-        </div>
-        {% endif %}
-
-        <div class="mvv-card">
-            <h3>Modules</h3>
-            <ul>
-                {% for module in programme.modules.all %}
-                    <li><strong>Module {{ module.numero }}:</strong> {{ module.titre }} {% if module.duree %}({{ module.duree }}){% endif %}</li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        {% if programme.specialisations.all %}
-        <div class="mvv-card">
-            <h3>Spécialisations</h3>
-            <ul>
-                {% for spec in programme.specialisations.all %}
-                    <li><strong>{{ spec.nom }}</strong>: {{ spec.description }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
     </div>
-</section>
+</div>
 {% endblock %}

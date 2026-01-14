@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscription réussie - TechNova{% endblock %}
+
+{% block content %}
+<style>
+    .success-container {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+    }
+    
+    .success-card {
+        animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .check-icon {
+        animation: scaleIn 0.5s ease-out 0.3s both;
+    }
+    
+    @keyframes scaleIn {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+    
+    .contact-info {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+    
+    .contact-item:hover {
+        transform: translateX(10px);
+    }
+    
+    .contact-item i {
+        font-size: 1.8rem;
+        color: #0057B8;
+        margin-right: 1.5rem;
+        width: 40px;
+    }
+</style>
+
+<div class="success-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-lg success-card border-0">
+                    <div class="card-body p-5">
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success check-icon" style="font-size: 6rem;"></i>
+                            <h1 class="mt-4" style="color: #0057B8;">Pré-inscription enregistrée !</h1>
+                        </div>
+                        
+                        <p class="lead text-center mt-3 mb-4">
+                            Merci d'avoir choisi <strong style="color: #F58220;">TechNova - École Polytechnique</strong>.
+                        </p>
+                        
+                        <div class="alert alert-info border-0 shadow-sm">
+                            <h5><i class="fas fa-route"></i> Prochaines étapes :</h5>
+                            <div class="row mt-3">
+                                <div class="col-md-6 mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="badge bg-primary me-3" style="font-size: 1.2rem;">1</div>
+                                        <div>
+                                            <strong>Vérification de votre dossier</strong>
+                                            <p class="mb-0 small">Notre équipe examine votre pré-inscription (2-3 jours ouvrables)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="badge bg-success me-3" style="font-size: 1.2rem;">2</div>
+                                        <div>
+                                            <strong>Convocation</strong>
+                                            <p class="mb-0 small">Vous recevrez un email/appel avec la date de rendez-vous</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="badge bg-warning me-3" style="font-size: 1.2rem;">3</div>
+                                        <div>
+                                            <strong>Rendez-vous au campus</strong>
+                                            <p class="mb-0 small">Présentez-vous avec tous les documents requis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="badge bg-info me-3" style="font-size: 1.2rem;">4</div>
+                                        <div>
+                                            <strong>Finalisation</strong>
+                                            <p class="mb-0 small">Complétez votre inscription et recevez votre carte</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning border-0 shadow-sm mt-3">
+                            <h5><i class="fas fa-clipboard-list"></i> N'oubliez pas d'apporter :</h5>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Copie légalisée du diplôme</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Copie pièce d'identité</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> 2 photos d'identité</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Certificat de naissance</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Relevés de notes</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Frais de dossier</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <h5 class="mb-4 text-center"><i class="fas fa-headset"></i> Besoin d'aide ?</h5>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <strong>Téléphone</strong><br>
+                                    <span class="text-muted">+509 XXXX XXXX</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email</strong><br>
+                                    <span class="text-muted">inscription@technova.edu.ht</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <strong>Adresse</strong><br>
+                                    <span class="text-muted">Delmas, Port-au-Prince, Haïti</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="{% url 'accueil' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-home"></i> Retour à l'accueil
+                            </a>
+                            <a href="{% url 'liste_programmes' %}" class="btn btn-outline-secondary btn-lg ms-2">
+                                <i class="fas fa-book"></i> Voir nos programmes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

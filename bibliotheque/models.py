@@ -1,4 +1,3 @@
-# Create your models here.
 from django.db import models
 
 class CategorieRessource(models.Model):
@@ -27,7 +26,7 @@ class Ressource(models.Model):
     mots_cles = models.CharField(max_length=300, blank=True)
     
     acces_restreint = models.BooleanField(default=True)  # Réservé aux étudiants?
-    telechargeaments = models.IntegerField(default=0)
+    telechargements = models.IntegerField(default=0)
     
     date_ajout = models.DateTimeField(auto_now_add=True)
     

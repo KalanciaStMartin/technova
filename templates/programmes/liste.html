@@ -1,31 +1,36 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Programmes - Technova{% endblock %}
+{% block title %}Nos Programmes - TechNova{% endblock %}
 
 {% block content %}
-<section class="about-section">
-    <div class="container">
-        <div class="section-header">
-            <h2>Nos Programmes</h2>
-            <p>Découvrez toutes nos formations et choisissez celle qui vous convient.</p>
-        </div>
-
+<div class="container my-5">
+    <h1 class="text-center mb-5">Nos Programmes de Formation</h1>
+    
+    {% if programmes %}
         <div class="row">
             {% for programme in programmes %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="mvv-card">
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow">
                     {% if programme.image %}
-                        <img src="{{ programme.image.url }}" alt="{{ programme.nom }}" style="width:100%; border-radius: 10px; margin-bottom:15px;">
+                    <img src="{{ programme.image.url }}" class="card-img-top" alt="{{ programme.nom }}">
                     {% endif %}
-                    <h3>{{ programme.nom }}</h3>
-                    <p><strong>Type :</strong> {{ programme.type_programme.nom }}</p>
-                    <p><strong>Durée :</strong> {{ programme.duree }}</p>
-                    <a href="{% url 'programmes:detail' programme.id %}" class="btn btn-primary mt-2">Voir le programme</a>
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">{{ programme.type_programme }}</span>
+                        <h4 class="card-title">{{ programme.nom }}</h4>
+                        <p class="text-muted"><i class="fas fa-clock"></i> {{ programme.duree }}</p>
+                        <p class="card-text">{{ programme.description|truncatewords:30 }}</p>
+                        <a href="{% url 'detail_programme' programme.pk %}" class="btn btn-primary">
+                            <i class="fas fa-info-circle"></i> Voir les détails
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-    </div>
-</section>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> Aucun programme disponible pour le moment.
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

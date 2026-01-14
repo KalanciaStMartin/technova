@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Technova - À Propos{% endblock %}
+{% block title %}InnovExcellence - École d'Excellence en Informatique{% endblock %}
 
 {% block extra_css %}
+
+
 <style>
     :root {
         --bleu-principal: #0057B8;
         --orange-energie: #F58220;
-        --gris-clair: #f8f9fa;
-        --noir: #333333;
+        --gris-argente: #C0C0C0;
         --blanc: #ffffff;
+        --noir: #333333;
+        --gris-clair: #f8f9fa;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     body {
@@ -20,6 +29,7 @@
         background: var(--gris-clair);
     }
 
+    /* Hero Section */
     .hero-about {
         background: linear-gradient(135deg, var(--bleu-principal) 0%, #003d82 100%);
         color: white;
@@ -27,6 +37,18 @@
         text-align: center;
         position: relative;
         overflow: hidden;
+    }
+
+    .hero-about::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgba(245,130,32,0.1)" /><stop offset="100%" style="stop-color:rgba(245,130,32,0.05)" /></linearGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23grad)" /><circle cx="800" cy="600" r="200" fill="url(%23grad)" /></svg>');
+        background-size: cover;
+        opacity: 0.3;
     }
 
     .hero-about .container {
@@ -49,6 +71,14 @@
         animation: slideInUp 1s ease-out 0.3s both;
     }
 
+    /* Container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Sections principales */
     .about-section {
         padding: 80px 0;
         background: white;
@@ -91,6 +121,7 @@
         margin: 0 auto;
     }
 
+    /* Mission Vision Values */
     .mvv-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -147,10 +178,72 @@
         line-height: 1.7;
     }
 
+    /* Values List */
+    .values-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .value-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .value-item:hover {
+        transform: translateX(10px);
+        box-shadow: 0 10px 30px rgba(0, 87, 184, 0.15);
+    }
+
+    .value-item .icon {
+        width: 50px;
+        height: 50px;
+        background: var(--orange-energie);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .value-item h4 {
+        color: var(--bleu-principal);
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    .value-item p {
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    /* Director Message */
     .director-message {
         background: linear-gradient(135deg, var(--bleu-principal), #003d82);
         color: white;
         padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .director-message::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon points="0,0 1000,0 1000,1000" fill="rgba(245,130,32,0.1)"/></svg>');
+        background-size: cover;
     }
 
     .director-content {
@@ -162,6 +255,10 @@
         z-index: 2;
     }
 
+    .director-photo {
+        text-align: center;
+    }
+
     .director-photo img {
         width: 250px;
         height: 250px;
@@ -170,67 +267,105 @@
         object-fit: cover;
     }
 
+    .director-photo h3 {
+        margin-top: 20px;
+        font-size: 1.5rem;
+    }
+
+    .director-photo p {
+        color: var(--orange-energie);
+        font-weight: 600;
+    }
+
     .director-text {
         font-size: 1.1rem;
         line-height: 1.8;
         font-style: italic;
     }
 
-    /* pour valeurs */
-    /* Container de toutes les valeurs */
-    .values-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        margin-top: 40px;
+    .director-text::before {
+        content: '"';
+        font-size: 4rem;
+        color: var(--orange-energie);
+        line-height: 1;
+        float: left;
+        margin: -10px 10px -10px 0;
     }
 
-    /* Chaque valeur */
-    .value-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 20px;
-        padding: 25px;
+    /* Partners */
+    .partners-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+    }
+
+    .partner-item {
         background: white;
+        padding: 30px;
         border-radius: 15px;
+        text-align: center;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         transition: all 0.3s ease;
     }
 
-    .value-item:hover {
+    .partner-item:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 87, 184, 0.15);
+        box-shadow: 0 15px 40px rgba(0, 87, 184, 0.1);
     }
 
-    /* Icon de la valeur */
-    .value-item .icon {
-        width: 50px;
-        height: 50px;
-        background: #F58220;
-        /* couleur orange */
-        border-radius: 50%;
+    .partner-item img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 20px;
+    }
+
+    /* Organigramme */
+    .organigramme {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-top: 40px;
+    }
+
+    .org-level {
+        margin-bottom: 40px;
+    }
+
+    .org-boxes {
         display: flex;
-        align-items: center;
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .org-box {
+        background: linear-gradient(135deg, var(--bleu-principal), #003d82);
         color: white;
-        font-size: 1.2rem;
-        flex-shrink: 0;
+        padding: 20px 30px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 200px;
+        position: relative;
     }
 
-    /* Texte */
-    .value-item h4 {
-        color: #0057B8;
-        /* bleu principal */
-        margin-bottom: 8px;
-        font-size: 1.2rem;
+    .org-box.director {
+        background: linear-gradient(135deg, var(--orange-energie), #e06b00);
     }
 
-    .value-item p {
-        color: #666;
-        font-size: 0.95rem;
-        line-height: 1.5;
+    .org-box h4 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
     }
 
+    .org-box p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    /* Animations */
     @keyframes slideInDown {
         from {
             opacity: 0;
@@ -255,6 +390,7 @@
         }
     }
 
+    /* Responsive */
     @media (max-width: 768px) {
         .hero-about h1 {
             font-size: 2.5rem;
@@ -274,202 +410,154 @@
             gap: 40px;
             text-align: center;
         }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .about-section {
+            padding: 60px 0;
+        }
+
+        .org-boxes {
+            flex-direction: column;
+            align-items: center;
+        }
     }
-    /* organigramme */
-    /* Organigramme Technova */
-.organigramme {
-    background: #f8f9fa; /* gris clair de fond */
-    padding: 40px 20px;
-    border-radius: 15px;
-    margin-top: 40px;
-}
-
-/* Chaque niveau */
-.org-level {
-    margin-bottom: 40px;
-}
-
-/* Conteneur des boîtes pour un niveau */
-.org-boxes {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-/* Boîte individuelle */
-.org-box {
-    background: linear-gradient(135deg, #0057B8, #003d82); /* bleu principal */
-    color: white;
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    min-width: 200px;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Boîte Directeur */
-.org-box.director {
-    background: linear-gradient(135deg, #F58220, #e06b00); /* orange énergie */
-    box-shadow: 0 8px 25px rgba(245, 130, 32, 0.3);
-}
-
-/* Titres dans les boîtes */
-.org-box h4 {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
-/* Paragraphes dans les boîtes */
-.org-box p {
-    font-size: 0.95rem;
-    opacity: 0.9;
-    margin: 0;
-}
-
-/* Hover effect */
-.org-box:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0, 87, 184, 0.3);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-    .org-boxes {
-        justify-content: center;
-    }
-}
-
-@media (max-width: 768px) {
-    .org-box {
-        min-width: 100%;
-    }
-}
-
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Hero Section -->
 <section class="hero-about">
     <div class="container">
-        <h1>À Propos de Technova</h1>
-        <p>Découvrez notre mission, vision et valeurs qui font de Technova un établissement d’excellence en informatique
-            et technologie.</p>
+        <h1>À Propos d'InnovExcellence</h1>
+        <p>Découvrez l'histoire, la mission et les valeurs qui font de notre établissement une référence d'excellence en
+            formation technologique en Haïti</p>
     </div>
 </section>
 
+<!-- Mission, Vision, Valeurs -->
 <section class="about-section">
     <div class="container">
         <div class="section-header">
             <h2>Notre Identité</h2>
-            <p>Ce qui nous guide dans notre mission éducative</p>
+            <p>Découvrez ce qui nous anime et nous guide dans notre mission éducative</p>
         </div>
-        <div class="mvv-grid">
+
+        
             <div class="mvv-card">
-                <div class="icon"><i class="fas fa-bullseye"></i></div>
+                <div class="icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
                 <h3>Notre Mission</h3>
-                <p>
-                    Former des professionnels compétents, créatifs et innovants dans les domaines des technologies de
+                <p>Former des professionnels compétents, créatifs et innovants dans les domaines des technologies de
                     l'information, du développement logiciel, des réseaux et systèmes, ainsi que des énergies
-                    renouvelables.
-                    <p>Nous nous engageons à offrir une formation pratique et de qualité, adaptée aux besoins du marché du
-                    travail, et à développer chez nos étudiants l’esprit d’analyse, la rigueur professionnelle et la
-                    capacité à innover dans des projets concrets.</p>
-                    <p>Notre objectif est de préparer chaque étudiant à relever les défis technologiques actuels et futurs,
-                    tout en contribuant activement au développement socio-économique d’Haïti et à l’émergence d’une
-                    nouvelle génération de leaders dans le secteur numérique.</p>
+                    renouvelables. Nous nous engageons à offrir une formation pratique et de qualité, adaptée aux
+                    besoins du marché du travail.</p>
+            </div>
+
+            <div class="mvv-card">
+                <div class="icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Notre Vision</h3>
+                <p> Vision d’InnovExecelence
+                    La vision d’InnovExecelence est de devenir un centre de référence en formation technique,
+                    technologique et entrepreneuriale, reconnu pour la qualité de ses enseignements, son approche
+                    innovante et son impact réel sur l’employabilité des jeunes et le développement du pays.
+                    L’institution aspire à former une génération de professionnels compétents, créatifs et responsables,
+                    capables de bâtir des solutions durables et de contribuer activement à la transformation numérique
+                    et socio-économique d’Haïti.
+                    InnovExecelence souhaite :
+                    • Être un pôle d’innovation et d’excellence éducative
+                    • Devenir le premier choix des jeunes qui recherchent une formation pratique et orientée vers
+                    l’emploi
+                    • Renforcer les compétences numériques et entrepreneuriales dans la société
+                    • Créer un lien fort entre l’école et le monde professionnel
+                    • S’imposer comme un acteur clé du développement local et national
+
                 </p>
             </div>
 
             <div class="mvv-card">
-                <div class="icon"><i class="fas fa-eye"></i></div>
-                <h3>Notre Vision</h3>
-
-                <p>La vision de Technova est de devenir un centre de référence en formation technique,
-                    technologique et entrepreneuriale, reconnu pour la qualité de ses enseignements, son approche
-                    innovante et son impact réel sur l’employabilité des jeunes et le développement du pays.</p>
-
-                <p>L’institution aspire à former une génération de professionnels compétents, créatifs et responsables,
-                    capables de bâtir des solutions durables et de contribuer activement à la transformation numérique
-                    et socio-économique d’Haïti.</p>
-
-                <p>Technova souhaite :</p>
-                <ul>
-                    <li>Être un pôle d’innovation et d’excellence éducative</li>
-                    <li>Devenir le premier choix des jeunes qui recherchent une formation pratique et orientée vers
-                        l’emploi</li>
-                    <li>Renforcer les compétences numériques et entrepreneuriales dans la société</li>
-                    <li>Créer un lien fort entre l’école et le monde professionnel</li>
-                    <li>S’imposer comme un acteur clé du développement local et national</li>
-                </ul>
-            </div>
-
-
-
-
-        </div>
-        <div class="mvv-card m-4">
-            <div class="icon"><i class="fas fa-heart"></i></div>
-            <h3>Nos Valeurs</h3>
-            <div class="values-list">
-                <div class="value-item">
-                    <div class="icon"><i class="fas fa-star"></i></div>
-                    <div>
-                        <h4>Excellence</h4>
-                        <p>Qualité et rigueur dans toutes nos formations.</p>
-                    </div>
+                <div class="icon">
+                    <i class="fas fa-heart"></i>
                 </div>
-
-                <div class="value-item">
-                    <div class="icon"><i class="fas fa-lightbulb"></i></div>
-                    <div>
-                        <h4>Innovation</h4>
-                        <p>Créativité et adoption des nouvelles technologies.</p>
+                <h3>Nos Valeurs</h3>
+                <div class="values-list">
+                    <div class="value-item">
+                        <div class="icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <h4>Excellence</h4>
+                            <p>Toujours viser la qualité et la rigueur dans la formation et les pratiques.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="value-item">
-                    <div class="icon"><i class="fas fa-handshake"></i></div>
-                    <div>
-                        <h4>Engagement</h4>
-                        <p>Responsabilité sociale et professionnelle.</p>
+                    <div class="value-item">
+                        <div class="icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h4>Innovation</h4>
+                            <p>Encourager la créativité, la recherche et l'adoption des nouvelles technologies.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="value-item">
-                    <div class="icon"><i class="fas fa-users"></i></div>
-                    <div>
-                        <h4>Collaboration</h4>
-                        <p>Travail d’équipe et partage des connaissances.</p>
+                    <div class="value-item">
+                        <div class="icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div>
+                            <h4>Engagement</h4>
+                            <p>Promouvoir la responsabilité sociale et professionnelle.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="value-item">
-                    <div class="icon"><i class="fas fa-balance-scale"></i></div>
-                    <div>
-                        <h4>Éthique</h4>
-                        <p>Respect des principes moraux et transparence dans toutes nos actions.</p>
+                    <div class="value-item">
+                        <div class="icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <h4>Accessibilité</h4>
+                            <p>Garantir une formation accessible à tous, sans discrimination.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="value-item">
-                    <div class="icon"><i class="fas fa-recycle"></i></div>
-                    <div>
-                        <h4>Responsabilité</h4>
-                        <p>Agir de manière responsable et durable dans tous nos projets.</p>
+                    <div class="value-item">
+                        <div class="icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div>
+                            <h4>Esprit d'équipe</h4>
+                            <p>Favoriser la collaboration et le partage des connaissances.</p>
+                        </div>
+                    </div>
+
+                    <div class="value-item">
+                        <div class="icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div>
+                            <h4>Éthique</h4>
+                            <p>Insister sur le respect des principes moraux et la transparence dans toutes les actions.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        
     </div>
 </section>
+
 <!-- Historique -->
 <section class="about-section">
     <div class="container">
         <div class="section-header">
             <h2>Notre Historique</h2>
-            <p>Un parcours d'excellence et d'innovation depuis la création de Technova</p>
+            <p>Un parcours d'excellence et d'innovation depuis notre création</p>
         </div>
 
         <div class="mvv-card">
@@ -477,40 +565,91 @@
                 <i class="fas fa-history"></i>
             </div>
             <h3>Notre Histoire</h3>
-            <p>
-                Technova est née de la vision commune de ses fondateurs, qui souhaitaient créer un établissement moderne et innovant, capable de répondre aux besoins croissants en compétences techniques et professionnelles en Haïti. 
-                Depuis sa création, Technova s’est donné pour mission de former des jeunes compétents, créatifs et responsables, aptes à relever les défis du marché du travail et à contribuer au développement socio-économique du pays.
+            <p>Histoire d’InnovExecelence
+                InnovExecelence est née de la vision commune de ses cofondateurs : Siméon Kince, Clif Julemuste, Jean
+                Kilson Despinasse et Peter Sylvestre, qui souhaitaient créer un centre de formation moderne et innovant,
+                capable de répondre aux besoins croissants en compétences techniques et professionnelles en Haïti.
+                Depuis sa création, InnovExecelence s’est donné pour mission de former des jeunes compétents, créatifs
+                et responsables, aptes à relever les défis du marché du travail et à contribuer au développement
+                socio-économique du pays.
+                Étapes clés de son évolution :
+                • Fondation : Création de l’école avec une vision d’innovation et d’excellence dans la formation
+                technique et professionnelle.
+                • Développement des programmes : Mise en place de filières pratiques et orientées vers l’emploi,
+                incluant la programmation, le développement logiciel, le web, les réseaux, la cybersécurité,
+                l’entrepreneuriat et le multimédia.
+                • Expansion et impact : Ouverture à un large public, accompagnement des étudiants vers des projets
+                innovants et partenariats avec des entreprises pour stages et emplois.
+                • InnovTech et autres départements : Lancement du pôle technologique pour répondre aux besoins
+                numériques et technologiques actuels, avec un accent sur la pratique et l’innovation.
+                Aujourd’hui, InnovExecelence est reconnue comme une institution de référence, combinant qualité
+                pédagogique, innovation et engagement pour la réussite des étudiants. L’école continue de se développer,
+                avec pour objectif de devenir une institution leader dans la formation professionnelle et technologique
+                en Haïti et dans la région.
+
             </p>
-            <p>
-                <strong>Étapes clés de notre évolution :</strong><br>
-                • <strong>Fondation :</strong> Création de Technova avec une vision d’innovation et d’excellence dans la formation technique et professionnelle.<br>
-                • <strong>Développement des programmes :</strong> Mise en place de filières pratiques et orientées vers l’emploi, incluant la programmation, le développement logiciel, le web, les réseaux, la cybersécurité, l’entrepreneuriat et le multimédia.<br>
-                • <strong>Expansion et impact :</strong> Ouverture à un large public, accompagnement des étudiants vers des projets innovants et partenariats avec des entreprises pour stages et emplois.<br>
-                • <strong>Pôles technologiques :</strong> Lancement de départements spécialisés pour répondre aux besoins numériques et technologiques actuels, avec un accent sur la pratique et l’innovation.
-            </p>
-            <p>
-                Aujourd’hui, Technova est reconnue comme une institution de référence, combinant qualité pédagogique, innovation et engagement pour la réussite des étudiants. L’établissement continue de se développer pour devenir un leader de la formation professionnelle et technologique en Haïti et dans la région.
-            </p>
+            <p>Fondée avec la vision de transformer l'éducation technologique en Haïti, InnovExcellence s'est imposée
+                comme un acteur incontournable de la formation professionnelle. Depuis notre création, nous avons formé
+                des centaines de professionnels qui contribuent aujourd'hui au développement technologique du pays.
+                Notre parcours est marqué par une croissance constante, des innovations pédagogiques et une adaptation
+                permanente aux besoins du marché du travail.</p>
         </div>
     </div>
 </section>
 
+<!-- Mot du Directeur -->
 <section class="director-message">
     <div class="container">
         <div class="director-content">
-            <div class="director-photo fluid">
-                <img src="{% static 'images/directeur.jpg' %}" alt="Directeur Technova">
-                <h3>Ing. Despinasse</h3>
+            <div class="director-photo">
+                <img src="https://via.placeholder.com/250x250/0057B8/ffffff?text=Directeur" alt="Directeur">
+                <h3>Ing Despinasse Joseph</h3>
                 <p>Directeur Général</p>
             </div>
             <div class="director-text">
-                <p>Bienvenue chez Technova ! Nous formons la prochaine génération de leaders en informatique et
-                    technologie, avec une approche pratique et innovante adaptée aux défis du marché. Ensemble,
-                    construisons votre avenir numérique.</p>
+                <p>Chers étudiants et partenaires, c'est avec une grande fierté que je vous présente InnovExcellence, un
+                    établissement qui incarne l'excellence éducative et l'innovation technologique. Notre engagement
+                    envers la qualité de l'enseignement et le développement de nos étudiants nous positionne comme un
+                    leader dans le domaine de la formation technologique en Haïti. Ensemble, nous construisons l'avenir
+                    numérique de notre pays en formant les leaders de demain.</p>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Partenaires -->
+<section class="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Nos Partenaires & Affiliations</h2>
+            <p>Des collaborations stratégiques pour une formation d'excellence</p>
+        </div>
+
+        <div class="partners-grid">
+            <div class="partner-item">
+                <img src="https://via.placeholder.com/80x80/0057B8/ffffff?text=MIT" alt="MIT">
+                <h4>MIT</h4>
+                <p>Partenaire Technologique</p>
+            </div>
+            <div class="partner-item">
+                <img src="https://via.placeholder.com/80x80/F58220/ffffff?text=Google" alt="Google">
+                <h4>Google</h4>
+                <p>Certification</p>
+            </div>
+            <div class="partner-item">
+                <img src="https://via.placeholder.com/80x80/0057B8/ffffff?text=Microsoft" alt="Microsoft">
+                <h4>Microsoft</h4>
+                <p>Solutions Cloud</p>
+            </div>
+            <div class="partner-item">
+                <img src="https://via.placeholder.com/80x80/F58220/ffffff?text=AWS" alt="AWS">
+                <h4>Amazon AWS</h4>
+                <p>Infrastructure Cloud</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Organigramme -->
 <section class="about-section">
     <div class="container">
@@ -520,17 +659,15 @@
         </div>
 
         <div class="organigramme">
-            <!-- Niveau Direction Générale -->
             <div class="org-level">
                 <div class="org-boxes">
                     <div class="org-box director">
                         <h4>Direction Générale</h4>
-                        <p>Ing. Despinasse</p>
+                        <p>Dr. Jean Baptiste PIERRE</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Niveau Directions principales -->
             <div class="org-level">
                 <div class="org-boxes">
                     <div class="org-box">
@@ -548,7 +685,6 @@
                 </div>
             </div>
 
-            <!-- Niveau Départements -->
             <div class="org-level">
                 <div class="org-boxes">
                     <div class="org-box">
@@ -573,4 +709,30 @@
     </div>
 </section>
 
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    // Animation des compteurs
+    document.addEventListener('DOMContentLoaded', function () {
+        const counters = document.querySelectorAll('.stat-number-modern');
+
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            let count = 0;
+            const increment = target / 100;
+
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    counter.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.ceil(count);
+                }
+            }, 20);
+        });
+    });
+</script>
 {% endblock %}
