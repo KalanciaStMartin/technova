@@ -1,0 +1,1 @@
+web: gunicorn technova_projet.wsgi
