@@ -1,1 +1,1 @@
-web: gunicorn technova_projet.wsgi
+web: gunicorn technova.wsgi
