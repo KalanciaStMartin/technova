@@ -16,11 +16,12 @@ Thumbs.db
 # Fichiers Django
 *.sqlite3
 *.log
-media/
+/media
+/staticfiles
 
 # IDE / éditeurs
 .vscode/
 .idea/
 
-# Fichiers de déploiement
+# Fichiers de déploiement / secrets
 *.env
