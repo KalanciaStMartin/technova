@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from decouple import config  # pour lire les variables d'environnement
+from decouple import config
 
 # -----------------------
 # Chemins
@@ -10,10 +10,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # -----------------------
 # Sécurité
 # -----------------------
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-2d0km2gc#8ljv&8&ezs+r-pc^u1@e(7ukc5r6r8(l!6x$k#kg6')
-DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-2d0km2gc#8ljv&8&ezs+r-pc^u1@e(7ukc5r6r8(l!6x$k#kg6')
+
+# ✅ CORRECTION : DEBUG=True en local grâce au .env
+DEBUG = config('DEBUG', default=True, cast=bool)
 print("DEBUG =", DEBUG)
-# Remplace par ton domaine Render
+
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'technova-1-rjs9.onrender.com']
 
 # -----------------------
@@ -26,8 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Tes apps
     'pages',
     'programmes',
     'etudiants',
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 # -----------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Pour servir les fichiers statiques
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'technova.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # si tu as un dossier templates
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,18 +96,10 @@ else:
 # Password validation
 # -----------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # -----------------------
@@ -123,13 +115,12 @@ USE_TZ = True
 # -----------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static'] if os.path.exists(BASE_DIR / 'static') else []
-
-# Whitenoise pour servir les fichiers statiques
+STATICFILES_DIRS = [
+    BASE_DIR / 'technova' / 'static',
+]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # -----------------------
-# Fichiers média
+# Fichiers média (photos uploadées)
 # -----------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

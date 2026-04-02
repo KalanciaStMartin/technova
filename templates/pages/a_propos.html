@@ -37,6 +37,7 @@
         text-align: center;
         position: relative;
         overflow: hidden;
+        min-height: 500px;
     }
 
     .hero-about::before {
@@ -56,6 +57,26 @@
         z-index: 2;
     }
 
+    .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: blur(2px);       /* ← le flou */
+    transform: scale(1.05);  /* ← évite les bords blancs */
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
     .hero-about h1 {
         font-size: 3.5rem;
         font-weight: 800;
@@ -321,50 +342,66 @@
         margin-bottom: 20px;
     }
 
-    /* Organigramme */
-    .organigramme {
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        margin-top: 40px;
-    }
+   /* Organigramme */
+.organigramme {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
 
-    .org-level {
-        margin-bottom: 40px;
-    }
+.org-level {
+    margin-bottom: 0;
+}
 
-    .org-boxes {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
+.org-boxes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-    .org-box {
-        background: linear-gradient(135deg, var(--bleu-principal), #003d82);
-        color: white;
-        padding: 20px 30px;
-        border-radius: 10px;
-        text-align: center;
-        min-width: 200px;
-        position: relative;
-    }
+.org-box {
+    background: linear-gradient(135deg, var(--bleu-principal), #003d82);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 200px;
+    position: relative;
+}
 
-    .org-box.director {
-        background: linear-gradient(135deg, var(--orange-energie), #e06b00);
-    }
+/* Bleu = défaut, Orange = classes spéciales */
+.org-box.director {
+    background: linear-gradient(135deg, var(--bleu-principal), #003d82);
+}
 
-    .org-box h4 {
-        font-size: 1.1rem;
-        margin-bottom: 5px;
-    }
+.org-box.orange {
+    background: linear-gradient(135deg, var(--orange-energie), #e06b00);
+}
 
-    .org-box p {
-        font-size: 0.9rem;
-        opacity: 0.9;
-    }
+.org-box.wide {
+    min-width: 400px;
+}
 
+.org-box h4 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.org-box p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Connecteurs verticaux entre les niveaux */
+.org-connector {
+    width: 3px;
+    height: 30px;
+    background: var(--bleu-principal);
+    margin: 0 auto;
+}
     /* Animations */
     @keyframes slideInDown {
         from {
@@ -430,8 +467,14 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero-about">
+    <!-- Image de fond -->
+    <div class="hero-bg">
+        <img src="{% static 'images/administration.JPG' %}" alt="Équipe InnovExcellence" class="hero-bg-img" />
+        <div class="hero-overlay"></div>
+    </div>
+
     <div class="container">
-        <h1>À Propos d'InnovExcellence</h1>
+        <h1>À Propos de TECHNOVA CENTRE POLYTECHNIQUE</h1>
         <p>Découvrez l'histoire, la mission et les valeurs qui font de notre établissement une référence d'excellence en
             formation technologique en Haïti</p>
     </div>
@@ -602,7 +645,7 @@
     <div class="container">
         <div class="director-content">
             <div class="director-photo">
-                <img src="https://via.placeholder.com/250x250/0057B8/ffffff?text=Directeur" alt="Directeur">
+                <img src="{% static 'images/directeur.jpg' %}" alt="Directeur">
                 <h3>Ing Despinasse Joseph</h3>
                 <p>Directeur Général</p>
             </div>
@@ -659,56 +702,61 @@
         </div>
 
         <div class="organigramme">
+
+            <!-- Niveau 1 : Direction Générale -->
             <div class="org-level">
                 <div class="org-boxes">
                     <div class="org-box director">
                         <h4>Direction Générale</h4>
-                        <p>Dr. Jean Baptiste PIERRE</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Connecteur vertical -->
+            <div class="org-connector"></div>
+
+            <!-- Niveau 2 : Administration & Finance -->
             <div class="org-level">
                 <div class="org-boxes">
-                    <div class="org-box">
-                        <h4>Direction Académique</h4>
-                        <p>Programmes & Pédagogie</p>
-                    </div>
-                    <div class="org-box">
-                        <h4>Direction Administrative</h4>
-                        <p>Gestion & Finances</p>
-                    </div>
-                    <div class="org-box">
-                        <h4>Direction Technique</h4>
-                        <p>Infrastructure & IT</p>
+                    <div class="org-box orange">
+                        <h4>Administration & Finance</h4>
                     </div>
                 </div>
             </div>
 
+            <!-- Connecteur vertical -->
+            <div class="org-connector"></div>
+
+            <!-- Niveau 3 : 3 départements -->
             <div class="org-level">
                 <div class="org-boxes">
                     <div class="org-box">
-                        <h4>Département IT</h4>
-                        <p>Développement & Réseaux</p>
+                        <h4>Départements Pédagogiques</h4>
+                    </div>
+                    <div class="org-box orange">
+                        <h4>Secrétariat</h4>
                     </div>
                     <div class="org-box">
-                        <h4>Département Énergies</h4>
-                        <p>Renouvelables & Durables</p>
-                    </div>
-                    <div class="org-box">
-                        <h4>Relations Étudiantes</h4>
-                        <p>Accompagnement & Stages</p>
-                    </div>
-                    <div class="org-box">
-                        <h4>Recherche & Innovation</h4>
-                        <p>R&D & Projets</p>
+                        <h4>Marketing & Ressources Humaines</h4>
                     </div>
                 </div>
             </div>
+
+            <!-- Connecteur vertical -->
+            <div class="org-connector"></div>
+
+            <!-- Niveau 4 : Coordination -->
+            <div class="org-level">
+                <div class="org-boxes">
+                    <div class="org-box orange wide">
+                        <h4>Coordination</h4>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
-
 {% endblock %}
 
 
