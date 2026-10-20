@@ -1,0 +1,949 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Événements — TechNova Haiti{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ── Variables TechNova ── */
+  :root {
+    --tn-navy: #08092e;
+    --tn-navy-mid: #2E30A0;
+    --tn-orange: #F5A623;
+    --tn-orange-light: #FDF3E0;
+    --tn-white: #ffffff;
+    --tn-surface: #f8f9fc;
+    --tn-text: #1a1d3a;
+    --tn-muted: #6b7280;
+    --tn-border: #e5e7eb;
+    --tn-radius: 12px;
+  }
+
+  /* ── Hero ── */
+  .ev-hero {
+    background: var(--tn-navy);
+    padding: 80px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ev-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(46,48,160,0.35) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(245,166,35,0.08) 0%, transparent 50%);
+  }
+
+  /* Circuit décoratif SVG */
+  .ev-hero-circuit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100%;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .ev-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .ev-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tn-orange);
+    margin-bottom: 20px;
+  }
+
+  .ev-hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--tn-orange);
+    flex-shrink: 0;
+  }
+
+  .ev-hero h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: var(--tn-white);
+    line-height: 1.1;
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .ev-hero h1 span {
+    color: var(--tn-orange);
+  }
+
+  .ev-hero-desc {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px;
+    line-height: 1.7;
+    margin: 0 0 40px;
+  }
+
+  /* Stats hero */
+  .ev-hero-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .ev-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ev-stat-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--tn-white);
+    line-height: 1;
+  }
+
+  .ev-stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ev-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+    align-self: center;
+  }
+
+  /* ── Filtres ── */
+  .ev-filters-bar {
+    background: var(--tn-white);
+    border-bottom: 1px solid var(--tn-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .ev-filters-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ev-filters-inner::-webkit-scrollbar { display: none; }
+
+  .ev-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--tn-muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    text-decoration: none;
+  }
+
+  .ev-filter-btn:hover {
+    color: var(--tn-navy);
+  }
+
+  .ev-filter-btn.active {
+    color: var(--tn-navy);
+    border-bottom-color: var(--tn-orange);
+    font-weight: 600;
+  }
+
+  .ev-filter-count {
+    background: var(--tn-surface);
+    color: var(--tn-muted);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 20px;
+  }
+
+  .ev-filter-btn.active .ev-filter-count {
+    background: var(--tn-orange);
+    color: var(--tn-white);
+  }
+
+  /* ── Section principale ── */
+  .ev-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  /* ── Événement à la une ── */
+  .ev-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--tn-white);
+    border-radius: var(--tn-radius);
+    overflow: hidden;
+    border: 1px solid var(--tn-border);
+    margin-bottom: 56px;
+    min-height: 380px;
+  }
+
+  .ev-featured-img {
+    position: relative;
+    background: var(--tn-navy);
+    overflow: hidden;
+  }
+
+  .ev-featured-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.85;
+  }
+
+  .ev-featured-img-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--tn-navy) 0%, var(--tn-navy-mid) 100%);
+  }
+
+  .ev-featured-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--tn-orange);
+    color: var(--tn-navy);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+  }
+
+  .ev-featured-body {
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ev-featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .ev-meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--tn-muted);
+  }
+
+  .ev-meta-chip svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .ev-featured-body h2 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--tn-text);
+    line-height: 1.2;
+    margin: 0 0 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .ev-featured-body p {
+    font-size: 0.925rem;
+    color: var(--tn-muted);
+    line-height: 1.7;
+    margin: 0 0 28px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ev-featured-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Boutons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: var(--tn-navy);
+    color: var(--tn-white);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+    border: 2px solid var(--tn-navy);
+  }
+
+  .btn-primary:hover {
+    background: var(--tn-navy-mid);
+    border-color: var(--tn-navy-mid);
+  }
+
+  .btn-primary.orange {
+    background: var(--tn-orange);
+    border-color: var(--tn-orange);
+    color: var(--tn-navy);
+  }
+
+  .btn-primary.orange:hover {
+    background: #e8960f;
+    border-color: #e8960f;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: transparent;
+    color: var(--tn-navy);
+    border: 2px solid var(--tn-border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--tn-navy);
+  }
+
+  .btn-outline.live {
+    color: #dc2626;
+    border-color: rgba(220,38,38,0.3);
+    gap: 8px;
+  }
+
+  .btn-outline.live::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #dc2626;
+    animation: pulse-live 1.4s ease infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse-live {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.75); }
+  }
+
+  /* ── Section label ── */
+  .ev-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .ev-section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--tn-text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ev-section-title::after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 28px;
+    background: var(--tn-orange);
+    border-radius: 2px;
+    margin-left: 2px;
+  }
+
+  /* ── Grille événements ── */
+  .ev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  /* ── Carte événement ── */
+  .ev-card {
+    background: var(--tn-white);
+    border-radius: var(--tn-radius);
+    border: 1px solid var(--tn-border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s, transform 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ev-card:hover {
+    box-shadow: 0 8px 32px rgba(8,9,46,0.10);
+    transform: translateY(-2px);
+  }
+
+  .ev-card-img {
+    aspect-ratio: 16/9;
+    background: var(--tn-navy);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ev-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+
+  .ev-card:hover .ev-card-img img {
+    transform: scale(1.04);
+  }
+
+  .ev-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #08092e 0%, #2E30A0 100%);
+  }
+
+  .ev-card-img-placeholder svg {
+    width: 40px;
+    height: 40px;
+    stroke: rgba(245,166,35,0.5);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Badge date flottant */
+  .ev-card-date-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--tn-white);
+    border-radius: 8px;
+    padding: 6px 10px;
+    text-align: center;
+    min-width: 46px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .ev-card-date-badge .day {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--tn-navy);
+    line-height: 1;
+  }
+
+  .ev-card-date-badge .month {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--tn-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+
+  .ev-card-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 4px;
+  }
+
+  .status-upcoming { background: rgba(8,9,46,0.85); color: #fff; }
+  .status-live { background: #dc2626; color: #fff; }
+  .status-archive { background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.7); }
+
+  .ev-card-body {
+    padding: 20px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ev-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .ev-card-body h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--tn-text);
+    line-height: 1.35;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ev-card-desc {
+    font-size: 0.85rem;
+    color: var(--tn-muted);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+    flex: 1;
+  }
+
+  .ev-card-footer {
+    padding: 14px 22px;
+    border-top: 1px solid var(--tn-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .ev-card-lieu {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--tn-muted);
+    overflow: hidden;
+  }
+
+  .ev-card-lieu span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ev-card-lieu svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .ev-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--tn-navy-mid);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .ev-card-cta:hover { color: var(--tn-orange); }
+
+  .ev-card-cta svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.15s;
+  }
+
+  .ev-card-cta:hover svg { transform: translateX(3px); }
+
+  /* ── Vide / no results ── */
+  .ev-empty {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--tn-muted);
+  }
+
+  .ev-empty svg {
+    width: 56px;
+    height: 56px;
+    stroke: var(--tn-border);
+    fill: none;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    margin: 0 auto 16px;
+    display: block;
+  }
+
+  .ev-empty p { margin: 0; font-size: 0.9rem; }
+
+  /* ── Pagination ── */
+  .ev-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding-top: 8px;
+  }
+
+  .ev-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--tn-border);
+    color: var(--tn-text);
+    transition: all 0.15s;
+  }
+
+  .ev-page-btn:hover { border-color: var(--tn-navy); color: var(--tn-navy); }
+  .ev-page-btn.active { background: var(--tn-navy); color: #fff; border-color: var(--tn-navy); }
+  .ev-page-btn.arrow { color: var(--tn-muted); }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .ev-hero { padding: 56px 0 44px; }
+    .ev-hero-circuit { display: none; }
+
+    .ev-featured {
+      grid-template-columns: 1fr;
+    }
+
+    .ev-featured-img { min-height: 220px; }
+    .ev-featured-body { padding: 28px 24px; }
+    .ev-featured-body h2 { font-size: 1.35rem; }
+
+    .ev-hero-stats { gap: 24px; }
+    .ev-stat-divider { display: none; }
+
+    .ev-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ══ HERO ══ -->
+<section class="ev-hero">
+  <!-- Décor circuit (SVG inline) -->
+  <svg class="ev-hero-circuit" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g stroke="#F5A623" stroke-width="1" fill="none">
+      <path d="M380 20 H300 V80 H220 V140 H140 V200 H60 V260"/>
+      <path d="M380 80 H320 V160 H240 V220 H160 V280"/>
+      <path d="M380 150 H340 V200 H260"/>
+      <circle cx="300" cy="80" r="4" fill="#F5A623"/>
+      <circle cx="220" cy="140" r="4" fill="#F5A623"/>
+      <circle cx="140" cy="200" r="4" fill="#F5A623"/>
+      <circle cx="320" cy="160" r="3" fill="#F5A623"/>
+      <circle cx="240" cy="220" r="3" fill="#F5A623"/>
+      <rect x="296" y="16" width="8" height="8" fill="#F5A623" rx="1"/>
+      <rect x="216" y="136" width="8" height="8" fill="none" stroke="#F5A623"/>
+    </g>
+  </svg>
+
+  <div class="ev-hero-inner">
+    <div class="ev-hero-eyebrow">Centre Polytechnique TechNova — Événements</div>
+
+    <h1>Nos <span>événements</span><br>& conférences</h1>
+
+    <p class="ev-hero-desc">
+      InnovTech, formations, remises de diplômes, hackathons — retrouvez tous les événements qui façonnent l'écosystème technologique haïtien.
+    </p>
+
+    <div class="ev-hero-stats">
+      <div class="ev-stat">
+        <span class="ev-stat-num">{{ evenements_a_venir|length }}</span>
+        <span class="ev-stat-label">À venir</span>
+      </div>
+      <div class="ev-stat-divider"></div>
+      <div class="ev-stat">
+        <span class="ev-stat-num">{{ evenements_archives|length }}</span>
+        <span class="ev-stat-label">Archivés</span>
+      </div>
+      <div class="ev-stat-divider"></div>
+      <div class="ev-stat">
+        <span class="ev-stat-num">{{ total_evenements }}</span>
+        <span class="ev-stat-label">Total</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FILTRES STICKY ══ -->
+<nav class="ev-filters-bar" aria-label="Filtres événements">
+  <div class="ev-filters-inner">
+    <a href="?filtre=tous" class="ev-filter-btn {% if filtre == 'tous' or not filtre %}active{% endif %}">
+      Tous
+      <span class="ev-filter-count">{{ total_evenements }}</span>
+    </a>
+    <a href="?filtre=a-venir" class="ev-filter-btn {% if filtre == 'a-venir' %}active{% endif %}">
+      À venir
+      <span class="ev-filter-count">{{ evenements_a_venir|length }}</span>
+    </a>
+    <a href="?filtre=a-la-une" class="ev-filter-btn {% if filtre == 'a-la-une' %}active{% endif %}">
+      À la une
+      <span class="ev-filter-count">{{ evenements_une|length }}</span>
+    </a>
+    <a href="?filtre=archives" class="ev-filter-btn {% if filtre == 'archives' %}active{% endif %}">
+      Archives
+      <span class="ev-filter-count">{{ evenements_archives|length }}</span>
+    </a>
+  </div>
+</nav>
+
+
+<!-- ══ CONTENU PRINCIPAL ══ -->
+<main class="ev-main">
+
+  {% if evenement_vedette and not filtre or filtre == 'tous' or filtre == 'a-la-une' %}
+  <!-- ── Événement à la une ── -->
+  <article class="ev-featured">
+    <div class="ev-featured-img">
+      {% if evenement_vedette.image %}
+        <img src="{{ evenement_vedette.image.url }}" alt="{{ evenement_vedette.titre }}">
+      {% else %}
+        <div class="ev-featured-img-placeholder">
+          <svg viewBox="0 0 64 64" width="80" height="80" fill="none" stroke="rgba(245,166,35,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="8" y="8" width="48" height="48" rx="4"/>
+            <path d="M8 28h48M28 8v48M44 8v20M44 44v12M20 8v12M20 36v16"/>
+            <circle cx="44" cy="28" r="4"/>
+            <circle cx="20" cy="20" r="3"/>
+          </svg>
+        </div>
+      {% endif %}
+      <span class="ev-featured-badge">⭐ À la une</span>
+    </div>
+
+    <div class="ev-featured-body">
+      <div class="ev-featured-meta">
+        <span class="ev-meta-chip">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          {{ evenement_vedette.date_debut|date:"d F Y" }}
+        </span>
+        <span class="ev-meta-chip">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          {{ evenement_vedette.date_debut|date:"H:i" }}
+        </span>
+        <span class="ev-meta-chip">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ evenement_vedette.lieu }}
+        </span>
+      </div>
+
+      <h2>{{ evenement_vedette.titre }}</h2>
+      <p>{{ evenement_vedette.description }}</p>
+
+      <div class="ev-featured-actions">
+        {% if evenement_vedette.lien_inscription %}
+          <a href="{{ evenement_vedette.lien_inscription }}" class="btn-primary orange" target="_blank" rel="noopener">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            S'inscrire
+          </a>
+        {% endif %}
+        {% if evenement_vedette.lien_youtube %}
+          <a href="{{ evenement_vedette.lien_youtube }}" class="btn-outline live" target="_blank" rel="noopener">
+            YouTube Live
+          </a>
+        {% endif %}
+        <a href="{% url 'evenement_detail' evenement_vedette.pk %}" class="btn-outline">
+          En savoir plus
+        </a>
+      </div>
+    </div>
+  </article>
+  {% endif %}
+
+
+  {% if evenements %}
+    <!-- ── Grille ── -->
+    <div class="ev-section-header">
+      <h2 class="ev-section-title">
+        {% if filtre == 'archives' %}Événements passés
+        {% elif filtre == 'a-venir' %}Prochains événements
+        {% elif filtre == 'a-la-une' %}Événements à la une
+        {% else %}Tous les événements
+        {% endif %}
+      </h2>
+    </div>
+
+    <div class="ev-grid">
+      {% for ev in evenements %}
+      <article class="ev-card">
+        <a href="{% url 'evenement_detail' ev.pk %}" class="ev-card-img" tabindex="-1" aria-hidden="true">
+          {% if ev.image %}
+            <img src="{{ ev.image.url }}" alt="{{ ev.titre }}" loading="lazy">
+          {% else %}
+            <div class="ev-card-img-placeholder">
+              <svg viewBox="0 0 64 64">
+                <rect x="8" y="8" width="48" height="48" rx="4"/>
+                <path d="M8 28h48M28 8v48"/>
+                <circle cx="44" cy="20" r="4"/>
+              </svg>
+            </div>
+          {% endif %}
+
+          <!-- Badge date -->
+          <div class="ev-card-date-badge" aria-hidden="true">
+            <span class="day">{{ ev.date_debut|date:"d" }}</span>
+            <span class="month">{{ ev.date_debut|date:"M" }}</span>
+          </div>
+
+          <!-- Status -->
+          {% if ev.archive %}
+            <span class="ev-card-status status-archive">Archivé</span>
+          {% elif ev.lien_youtube %}
+            <span class="ev-card-status status-live">● Live</span>
+          {% else %}
+            <span class="ev-card-status status-upcoming">Bientôt</span>
+          {% endif %}
+        </a>
+
+        <div class="ev-card-body">
+          <div class="ev-card-meta">
+            <span class="ev-meta-chip" style="font-size:0.78rem;">
+              <svg viewBox="0 0 24 24" style="width:13px;height:13px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {{ ev.date_debut|date:"H:i" }}
+            </span>
+            {% if ev.a_la_une %}
+              <span style="font-size:0.72rem;font-weight:700;color:var(--tn-orange);letter-spacing:0.04em;text-transform:uppercase;">★ Une</span>
+            {% endif %}
+          </div>
+
+          <h3><a href="{% url 'evenement_detail' ev.pk %}" style="text-decoration:none;color:inherit;">{{ ev.titre }}</a></h3>
+          <p class="ev-card-desc">{{ ev.description|truncatewords:18 }}</p>
+        </div>
+
+        <div class="ev-card-footer">
+          <div class="ev-card-lieu">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>{{ ev.lieu|truncatechars:28 }}</span>
+          </div>
+          {% if ev.lien_inscription and not ev.archive %}
+            <a href="{{ ev.lien_inscription }}" class="ev-card-cta" target="_blank" rel="noopener" aria-label="S'inscrire à {{ ev.titre }}">
+              S'inscrire
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          {% else %}
+            <a href="{% url 'evenement_detail' ev.pk %}" class="ev-card-cta" aria-label="Voir {{ ev.titre }}">
+              Détails
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <!-- ── Pagination ── -->
+    {% if is_paginated %}
+    <nav class="ev-pagination" aria-label="Pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if filtre %}&filtre={{ filtre }}{% endif %}" class="ev-page-btn arrow" aria-label="Page précédente">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <span class="ev-page-btn active" aria-current="page">{{ num }}</span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a href="?page={{ num }}{% if filtre %}&filtre={{ filtre }}{% endif %}" class="ev-page-btn">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if filtre %}&filtre={{ filtre }}{% endif %}" class="ev-page-btn arrow" aria-label="Page suivante">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      {% endif %}
+    </nav>
+    {% endif %}
+
+  {% else %}
+    <!-- ── Aucun événement ── -->
+    <div class="ev-empty">
+      <svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="44" rx="4"/><line x1="8" y1="24" x2="56" y2="24"/><line x1="20" y1="6" x2="20" y2="18"/><line x1="44" y1="6" x2="44" y2="18"/><line x1="20" y1="36" x2="44" y2="36"/><line x1="20" y1="44" x2="32" y2="44"/></svg>
+      <p>Aucun événement dans cette catégorie pour le moment.</p>
+    </div>
+  {% endif %}
+
+</main>
+{% endblock %}

@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ programme.nom }} - TechNova{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --tn-navy: #08092e;
+        --tn-blue: #2E30A0;
+        --tn-orange: #F5A623;
+    }
+
+    .tn-breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 1.5rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+    }
+
+    .tn-breadcrumb a {
+        color: var(--tn-blue);
+        text-decoration: none;
+    }
+
+    .tn-breadcrumb a:hover {
+        color: var(--tn-orange);
+    }
+
+    .tn-breadcrumb .breadcrumb-item.active {
+        color: var(--tn-navy);
+        font-weight: 600;
+    }
+
+    .tn-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--tn-orange);
+    }
+
+    .programme-header h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 1px;
+        color: var(--tn-navy);
+        font-size: 2.4rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .tn-badge {
+        display: inline-block;
+        background: var(--tn-orange);
+        color: var(--tn-navy);
+        font-weight: 600;
+        font-size: 0.75rem;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        padding: 0.4rem 0.9rem;
+        border-radius: 30px;
+        margin-bottom: 1.5rem;
+    }
+
+    .programme-img {
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(8, 9, 46, 0.12);
+        margin-bottom: 2rem;
+    }
+
+    .tn-section-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 3px 14px rgba(8, 9, 46, 0.06);
+        margin-bottom: 1.5rem;
+        border-left: 4px solid var(--tn-orange);
+    }
+
+    .tn-section-card .card-body {
+        padding: 1.6rem 1.8rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .tn-section-card h5 {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 0.5px;
+        color: var(--tn-navy);
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .tn-section-card h5 i {
+        color: var(--tn-orange);
+        font-size: 1.1rem;
+    }
+
+    .tn-section-card p,
+    .tn-section-card li {
+        color: #444;
+        line-height: 1.65;
+    }
+
+    .tn-section-card ol li,
+    .tn-section-card ul li {
+        margin-bottom: 0.6rem;
+    }
+
+    .tn-section-card ol strong,
+    .tn-section-card ul strong {
+        color: var(--tn-navy);
+    }
+
+    .tn-section-card .text-muted {
+        color: var(--tn-blue) !important;
+        font-size: 0.85rem;
+    }
+
+    /* Sidebar */
+    .tn-sidebar-card {
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(160deg, var(--tn-navy) 0%, var(--tn-blue) 100%);
+        box-shadow: 0 10px 26px rgba(8, 9, 46, 0.18);
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .tn-sidebar-card::after {
+        content: "";
+        position: absolute;
+        top: -30%;
+        right: -25%;
+        width: 180px;
+        height: 180px;
+        border: 2px solid rgba(245, 166, 35, 0.15);
+        border-radius: 50%;
+    }
+
+    .tn-sidebar-card .card-body {
+        padding: 1.8rem;
+        position: relative;
+        z-index: 1;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .tn-sidebar-card .card-title {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 0.8px;
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+        color: #fff;
+    }
+
+    .tn-sidebar-card .card-title::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 3px;
+        background: var(--tn-orange);
+        margin-top: 0.6rem;
+        border-radius: 2px;
+    }
+
+    .tn-sidebar-card ul li {
+        margin-bottom: 1rem;
+        font-size: 0.92rem;
+        line-height: 1.5;
+        color: rgba(255,255,255,0.9);
+    }
+
+    .tn-sidebar-card ul li i {
+        color: var(--tn-orange);
+        width: 18px;
+    }
+
+    .tn-sidebar-card hr {
+        border-color: rgba(255,255,255,0.15);
+        margin: 1.4rem 0;
+    }
+
+    .btn-tn-orange {
+        background: var(--tn-orange);
+        color: var(--tn-navy);
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        font-weight: 600;
+        font-size: 0.92rem;
+        transition: all 0.25s ease;
+    }
+
+    .btn-tn-orange:hover {
+        background: #fff;
+        color: var(--tn-navy);
+    }
+
+    .btn-tn-outline {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        font-weight: 500;
+        font-size: 0.92rem;
+        transition: all 0.25s ease;
+    }
+
+    .btn-tn-outline:hover {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        border-color: #fff;
+    }
+</style>
+
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb tn-breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'accueil' %}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'liste_programmes' %}">Programmes</a></li>
+            <li class="breadcrumb-item active">{{ programme.nom }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="programme-header">
+                <h1>{{ programme.nom }}</h1>
+                <span class="tn-badge">{{ programme.type_programme }}</span>
+            </div>
+
+            {% if programme.image %}
+            <img src="{{ programme.image.url }}" class="img-fluid programme-img w-100" alt="{{ programme.nom }}">
+            {% endif %}
+
+            <div class="tn-section-card card">
+                <div class="card-body">
+                    <h5><i class="fas fa-info-circle"></i> Description</h5>
+                    <p>{{ programme.description }}</p>
+                </div>
+            </div>
+
+            <div class="tn-section-card card">
+                <div class="card-body">
+                    <h5><i class="fas fa-bullseye"></i> Objectifs Généraux</h5>
+                    <p>{{ programme.objectifs_generaux|linebreaks }}</p>
+                </div>
+            </div>
+
+            <div class="tn-section-card card">
+                <div class="card-body">
+                    <h5><i class="fas fa-check-circle"></i> Objectifs Spécifiques</h5>
+                    <p>{{ programme.objectifs_specifiques|linebreaks }}</p>
+                </div>
+            </div>
+
+            {% if programme.modules.all %}
+            <div class="tn-section-card card">
+                <div class="card-body">
+                    <h5><i class="fas fa-book"></i> Modules du Programme</h5>
+                    <ol>
+                        {% for module in programme.modules.all %}
+                        <li>
+                            <strong>{{ module.titre }}</strong>
+                            {% if module.duree %}<span class="text-muted">({{ module.duree }})</span>{% endif %}
+                            <p class="mb-0">{{ module.description }}</p>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if programme.specialisations.all %}
+            <div class="tn-section-card card">
+                <div class="card-body">
+                    <h5><i class="fas fa-star"></i> Spécialisations</h5>
+                    <ul>
+                        {% for spec in programme.specialisations.all %}
+                        <li><strong>{{ spec.nom }}</strong> — {{ spec.description }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            <div class="tn-sidebar-card card sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title">Informations</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-clock"></i> <strong>Durée:</strong> {{ programme.duree }}</li>
+                        <li><i class="fas fa-calendar"></i> <strong>Volume horaire:</strong> {{ programme.volume_horaire_min }}h - {{ programme.volume_horaire_max }}h</li>
+                        {% if programme.prerequis %}
+                        <li><i class="fas fa-clipboard-check"></i> <strong>Prérequis:</strong> {{ programme.prerequis }}</li>
+                        {% endif %}
+                    </ul>
+
+                    <hr>
+
+                    <a href="{% url 'inscription' %}" class="btn btn-tn-orange w-100 mb-2">
+                        <i class="fas fa-user-plus"></i> S'inscrire
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-tn-outline w-100">
+                        <i class="fas fa-envelope"></i> Nous contacter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

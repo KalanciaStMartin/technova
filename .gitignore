@@ -1,0 +1,27 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+
+# Environnement virtuel
+env/
+venv/
+ENV/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers Django
+*.sqlite3
+*.log
+/media
+/staticfiles
+
+# IDE / éditeurs
+.vscode/
+.idea/
+
+# Fichiers de déploiement / secrets
+*.env

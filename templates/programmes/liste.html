@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Nos Programmes - TechNova{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --tn-navy: #08092e;
+        --tn-blue: #2E30A0;
+        --tn-orange: #F5A623;
+    }
+
+    .programmes-hero {
+        background: linear-gradient(135deg, var(--tn-navy) 0%, var(--tn-blue) 100%);
+        border-radius: 18px;
+        padding: 3.5rem 2rem;
+        margin-bottom: 3rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .programmes-hero::after {
+        content: "";
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 280px;
+        height: 280px;
+        border: 2px solid rgba(245, 166, 35, 0.15);
+        border-radius: 50%;
+    }
+
+    .programmes-hero h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 1.5px;
+        color: #fff;
+        font-size: 2.8rem;
+        margin-bottom: 0.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .programmes-hero .underline {
+        width: 70px;
+        height: 4px;
+        background: var(--tn-orange);
+        margin: 0.8rem auto 1rem;
+        border-radius: 2px;
+    }
+
+    .programmes-hero p.subtitle {
+        color: rgba(255,255,255,0.75);
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .programme-card {
+        border: none;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 4px 18px rgba(8, 9, 46, 0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        border-top: 4px solid var(--tn-orange);
+    }
+
+    .programme-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 30px rgba(8, 9, 46, 0.15);
+    }
+
+    .programme-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .programme-card .card-body {
+        padding: 1.6rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .tn-badge {
+        display: inline-block;
+        background: var(--tn-orange);
+        color: var(--tn-navy);
+        font-weight: 600;
+        font-size: 0.72rem;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        padding: 0.35rem 0.8rem;
+        border-radius: 30px;
+        margin-bottom: 0.9rem;
+    }
+
+    .programme-card .card-title {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 0.5px;
+        color: var(--tn-navy);
+        font-size: 1.5rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .programme-card .duree {
+        color: var(--tn-blue);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.8rem;
+    }
+
+    .programme-card .card-text {
+        color: #555;
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+
+    .btn-tn-primary {
+        background: var(--tn-navy);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 0.55rem 1.3rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.3px;
+        transition: background 0.25s ease;
+    }
+
+    .btn-tn-primary:hover {
+        background: var(--tn-orange);
+        color: var(--tn-navy);
+    }
+
+    .empty-state {
+        background: #fff;
+        border: 1px dashed rgba(8, 9, 46, 0.2);
+        border-radius: 14px;
+        padding: 3rem 2rem;
+        text-align: center;
+        color: var(--tn-navy);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .empty-state i {
+        color: var(--tn-orange);
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+        display: block;
+    }
+</style>
+
+<div class="container my-5">
+
+    <div class="programmes-hero">
+        <h1>Nos Programmes de Formation</h1>
+        <div class="underline"></div>
+        <p class="subtitle">Inspirer, Innover, Impacter — à travers nos formations en technologie.</p>
+    </div>
+
+    {% if programmes %}
+        <div class="row">
+            {% for programme in programmes %}
+            <div class="col-md-6 mb-4">
+                <div class="programme-card card h-100">
+                    {% if programme.image %}
+                    <img src="{{ programme.image.url }}" class="card-img-top" alt="{{ programme.nom }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="tn-badge">{{ programme.type_programme }}</span>
+                        <h4 class="card-title">{{ programme.nom }}</h4>
+                        <p class="duree"><i class="fas fa-clock"></i> {{ programme.duree }}</p>
+                        <p class="card-text">{{ programme.description|truncatewords:30 }}</p>
+                        <a href="{% url 'detail_programme' programme.pk %}" class="btn btn-tn-primary">
+                            <i class="fas fa-info-circle"></i> Voir les détails
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-info-circle"></i>
+            Aucun programme affiché pour le moment, veuillez nous contacter.
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

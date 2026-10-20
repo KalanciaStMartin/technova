@@ -1,0 +1,669 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - TechNova{% endblock %}
+
+{% block content %}
+<!-- <style>
+    .hero {
+        background: linear-gradient(135deg, #0057B8, #F58220);
+        color: white;
+        padding: 5rem 0;
+        text-align: center;
+    }
+    
+    .card {
+        transition: transform 0.3s;
+        height: 100%;
+    }
+    
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+
+
+
+</style> -->
+<style>
+    .hero-tech {
+        min-height: 90vh;
+        background: linear-gradient(135deg, #0057B8 0%, #003d82 100%);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .particle:nth-child(1) {
+        width: 20px;
+        height: 20px;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .particle:nth-child(2) {
+        width: 15px;
+        height: 15px;
+        left: 20%;
+        animation-delay: 1s;
+    }
+
+    .particle:nth-child(3) {
+        width: 25px;
+        height: 25px;
+        left: 30%;
+        animation-delay: 2s;
+    }
+
+    .particle:nth-child(4) {
+        width: 10px;
+        height: 10px;
+        left: 40%;
+        animation-delay: 3s;
+    }
+
+    .particle:nth-child(5) {
+        width: 30px;
+        height: 30px;
+        left: 50%;
+        animation-delay: 4s;
+    }
+
+    .particle:nth-child(6) {
+        width: 12px;
+        height: 12px;
+        left: 60%;
+        animation-delay: 5s;
+    }
+
+    .particle:nth-child(7) {
+        width: 18px;
+        height: 18px;
+        left: 70%;
+        animation-delay: 0.5s;
+    }
+
+    .particle:nth-child(8) {
+        width: 22px;
+        height: 22px;
+        left: 80%;
+        animation-delay: 1.5s;
+    }
+
+    .particle:nth-child(9) {
+        width: 16px;
+        height: 16px;
+        left: 90%;
+        animation-delay: 2.5s;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+
+        10%,
+        90% {
+            opacity: 1;
+        }
+
+        50% {
+            transform: translateY(-100px) rotate(180deg);
+        }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        color: white;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        animation: slideInDown 1s ease-out;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        animation: slideInUp 1s ease-out 0.3s both;
+        opacity: 0.9;
+    }
+
+    .hero-buttons {
+        animation: fadeIn 1s ease-out 0.6s both;
+    }
+
+    .btn-glow {
+        background: linear-gradient(45deg, #F58220, #ff6b35);
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-glow:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(245, 130, 32, 0.4);
+    }
+
+    .btn-glow::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn-glow:hover::before {
+        left: 100%;
+    }
+
+    @keyframes slideInDown {
+        from {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .stats-modern {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-top: 3rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-item-modern {
+        text-align: center;
+        color: white;
+    }
+
+    .stat-number-modern {
+        font-size: 3rem;
+        font-weight: bold;
+        display: block;
+        animation: countUp 2s ease-out 1s both;
+    }
+
+    .formations-section {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .formation-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .formation-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .formation-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+
+    .card-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 2rem auto 1rem;
+        color: white;
+        font-size: 2rem;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .tech-features {
+        background: #1a202c;
+        color: white;
+        padding: 5rem 0;
+        position: relative;
+    }
+
+    .tech-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+            linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+        0% {
+            transform: translate(0, 0);
+        }
+
+        100% {
+            transform: translate(50px, 50px);
+        }
+    }
+
+    .feature-tech-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+    }
+
+    .feature-tech-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-5px);
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, #0057B8 0%, #003d82 100%);
+
+        color: white;
+        padding: 4rem 0;
+        position: relative;
+    }
+
+    .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .floating-element {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.1);
+        font-size: 2rem;
+        animation: floatAround 15s ease-in-out infinite;
+    }
+
+    .floating-element:nth-child(1) {
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .floating-element:nth-child(2) {
+        top: 60%;
+        left: 80%;
+        animation-delay: 5s;
+    }
+
+    .floating-element:nth-child(3) {
+        top: 80%;
+        left: 20%;
+        animation-delay: 10s;
+    }
+
+    @keyframes floatAround {
+
+        0%,
+        100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        25% {
+            transform: translate(100px, -50px) rotate(90deg);
+        }
+
+        50% {
+            transform: translate(-50px, -100px) rotate(180deg);
+        }
+
+        75% {
+            transform: translate(-100px, 50px) rotate(270deg);
+        }
+    }
+    /* ════════════════════════════════════════
+   SLOGAN TECHNOVA — Inspirer · Innover · Impacter
+   À utiliser sous un titre de hero (sur fond navy)
+   ════════════════════════════════════════ */
+
+.tn-slogan {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 28px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.tn-slogan .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #F5A623;
+  flex-shrink: 0;
+}
+
+/* Variante pour fond clair (si le hero est blanc/clair) */
+.tn-slogan.tn-slogan--dark {
+  color: #6b7280;
+}
+</style>
+
+<!-- Hero Section -->
+<!-- <section class="hero">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">Bienvenue à TechNova</h1>
+        <p class="lead mb-4">École Polytechnique d'Excellence - Formation en Technologies et Innovation</p>
+        <a href="{% url 'inscription' %}" class="btn btn-light btn-lg me-3">
+            <i class="fas fa-user-plus"></i> S'inscrire maintenant
+        </a>
+        <a href="{% url 'liste_programmes' %}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-book"></i> Nos Programmes
+        </a>
+    </div>
+</section> -->
+<!-- Hero Section with Tech Animations -->
+<section class="hero-tech">
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        TECH<span style="color: #fbbf24;">NOVA</span>
+                    </h1>
+                    <p class="tn-slogan">
+                        Inspirer <span class="dot" aria-hidden="true"></span> Innover <span class="dot"
+                            aria-hidden="true"></span> Impacter
+                    </p>
+                    <p class="hero-subtitle">
+                        🚀 Forge ton avenir dans l'informatique de pointe
+                        <br>
+                        <span style="font-size: 1.2rem;">Intelligence Artificielle • Cybersécurité • Cloud
+                            Computing</span>
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'liste_programmes' %}" class="btn btn-glow text-white me-3">
+                            <i class="fas fa-rocket"></i> Découvrir nos Formations
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-lg">
+                            <i class="fab fa-youtube"></i> Live Demo
+                        </a>
+                    </div>
+
+                    <!-- Stats modernes -->
+                    <div class="stats-modern">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="stat-item-modern">
+                                    <span class="stat-number-modern" data-count=20>{{
+                                        total_programmes }}</span>
+                                    <small>Formations</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item-modern">
+                                    <span class="stat-number-modern" data-count="118">118</span>
+                                    <small>Étudiants</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item-modern">
+                                    <span class="stat-number-modern" data-count="95">95</span>
+                                    <small>% Réussite</small>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-5">
+                <div class="text-center">
+                    <!-- Bloc avec photo -->
+                    <div
+                        style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; display: inline-block;">
+                        <img src="{% static 'images/accueil.jpg' %}" alt="Photo d'accueil"
+                            style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <i class="fas fa-lightbulb fa-3x text-warning mb-3"></i>
+                        <h4>Innovation</h4>
+                        <p>Former les innovateurs de demain avec des technologies</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h4>Excellence</h4>
+                        <p>Des formations de qualité par des experts reconnus</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <i class="fas fa-globe fa-3x text-success mb-3"></i>
+                        <h4>Opportunités</h4>
+                        <p>Préparer nos étudiants aux défis du marché mondial</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Programmes Section -->
+<!-- <section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Nos Formations</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-graduation-cap text-primary"></i> DUT Informatique</h5>
+                        <p class="card-text">Formation complète de 2 ans en informatique et technologies</p>
+                        <a href="{% url 'liste_programmes' %}" class="btn btn-primary">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-laptop-code text-success"></i> Licence en SI</h5>
+                        <p class="card-text">Spécialisation en sciences informatiques avancées</p>
+                        <a href="{% url 'liste_programmes' %}" class="btn btn-primary">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-certificate text-warning"></i> Formations Courtes</h5>
+                        <p class="card-text">Certificats professionnels en bureautique, design, développement web</p>
+                        <a href="{% url 'liste_programmes' %}" class="btn btn-primary">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<!-- CTA Section
+<section class="py-5" style="background-color: #0057B8; color: white;">
+    <div class="container text-center">
+        <h2 class="mb-4">Prêt à rejoindre TechNova ?</h2>
+        <p class="lead mb-4">Inscrivez-vous dès maintenant pour l'année académique 2025-2026</p>
+        <a href="{% url 'inscription' %}" class="btn btn-light btn-lg">
+            <i class="fas fa-rocket"></i> Commencer mon inscription
+        </a>
+    </div>
+</section> -->
+
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="floating-elements">
+        <div class="floating-element"><i class="fas fa-code"></i></div>
+        <div class="floating-element"><i class="fas fa-robot"></i></div>
+        <div class="floating-element"><i class="fas fa-cloud"></i></div>
+    </div>
+
+    <div class="container text-center">
+        <h2 class="display-4 fw-bold mb-3">Prêt à Transformer ton Avenir ?</h2>
+        <p class="lead mb-4">Rejoins la prochaine génération d'experts en informatique</p>
+        <div>
+            <a href="{% url 'inscription' %}" class="btn btn-glow btn-lg text-white me-3">
+                <i class="fas fa-user-plus"></i> S'inscrire Maintenant
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-phone"></i> Nous Contacter
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animation des compteurs
+    document.addEventListener('DOMContentLoaded', function () {
+        const counters = document.querySelectorAll('.stat-number-modern');
+
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            let count = 0;
+            const increment = target / 100;
+
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    counter.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.ceil(count);
+                }
+            }, 20);
+        });
+    });
+</script>
+
+{% endblock %}

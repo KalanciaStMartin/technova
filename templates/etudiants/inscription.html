@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscription - TechNova{% endblock %}
+
+{% block content %}
+<style>
+    .inscription-header {
+        background: linear-gradient(135deg, #0057B8 0%, #003d82 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+    }
+    
+    .section-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s;
+    }
+    
+    .section-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .section-title {
+        color: #0057B8;
+        border-bottom: 3px solid #F58220;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .required::after {
+        content: " *";
+        color: #dc3545;
+    }
+    
+    .btn-submit {
+        background: linear-gradient(135deg, #F58220, #d67419);
+        border: none;
+        padding: 1rem 3rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: all 0.3s;
+        color: white;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(245, 130, 32, 0.4);
+    }
+    
+    .documents-info {
+        background: linear-gradient(135deg, #fff3cd, #ffe8a1);
+        border-left: 5px solid #F58220;
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .important-note {
+        background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+        border-left: 5px solid #0057B8;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #F58220;
+        box-shadow: 0 0 0 0.2rem rgba(245, 130, 32, 0.25);
+    }
+</style>
+
+<div class="inscription-header">
+    <div class="container">
+        <h1 class="text-center mb-3">
+            <i class="fas fa-graduation-cap"></i> Fiche de Pré-Inscription
+        </h1>
+        <h3 class="text-center">TechNova - École Polytechnique</h3>
+        <p class="text-center mb-0 fs-5">Année académique {{ annee }}</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- INFORMATIONS GÉNÉRALES -->
+        <div class="section-card">
+            <h4 class="section-title">
+                <i class="fas fa-info-circle"></i> Informations Générales
+            </h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label required">Programme choisi</label>
+                    <select name="programme" class="form-select" required>
+                        <option value="">-- Sélectionnez un programme --</option>
+                        {% for prog in programmes %}
+                        <option value="{{ prog.id }}">{{ prog.nom }} ({{ prog.duree }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Année académique</label>
+                    <input type="text" name="annee_academique" value="{{ annee }}" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFORMATIONS PERSONNELLES -->
+        <div class="section-card">
+            <h4 class="section-title">
+                <i class="fas fa-user"></i> Informations Personnelles
+            </h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label required">Nom</label>
+                    <input type="text" name="nom" class="form-control" placeholder="Nom de famille" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label required">Prénoms</label>
+                    <input type="text" name="prenoms" class="form-control" placeholder="Tous vos prénoms" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Sexe</label>
+                    <select name="sexe" class="form-select" required>
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="M">Masculin</option>
+                        <option value="F">Féminin</option>
+                        <option value="A">Autre</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Date de naissance</label>
+                    <input type="date" name="date_naissance" class="form-control" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Lieu de naissance</label>
+                    <input type="text" name="lieu_naissance" class="form-control" placeholder="Ville, Pays" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Nationalité</label>
+                    <input type="text" name="nationalite" class="form-control" value="Haïtienne" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Téléphone mobile</label>
+                    <input type="tel" name="telephone" class="form-control" placeholder="+509 XXXX XXXX" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="email@exemple.com" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label required">Adresse de résidence</label>
+                <textarea name="adresse" class="form-control" rows="3" placeholder="Adresse complète (rue, quartier, ville)" required></textarea>
+            </div>
+        </div>
+
+        <!-- INFORMATIONS PARENTS/TUTEURS -->
+        <div class="section-card">
+            <h4 class="section-title">
+                <i class="fas fa-users"></i> Informations Parents / Tuteurs
+            </h4>
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label class="form-label required">Nom et prénom du parent/tuteur</label>
+                    <input type="text" name="nom_parent" class="form-control" placeholder="Nom complet" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Lien avec l'étudiant</label>
+                    <select name="lien_parent" class="form-select" required>
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="PERE">Père</option>
+                        <option value="MERE">Mère</option>
+                        <option value="TUTEUR">Tuteur légal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Téléphone</label>
+                    <input type="tel" name="telephone_parent" class="form-control" placeholder="+509 XXXX XXXX" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Email</label>
+                    <input type="email" name="email_parent" class="form-control" placeholder="email@exemple.com" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label required">Profession</label>
+                    <input type="text" name="profession_parent" class="form-control" placeholder="Profession" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARCOURS ACADÉMIQUE -->
+        <div class="section-card">
+            <h4 class="section-title">
+                <i class="fas fa-book"></i> Parcours Académique Précédent
+            </h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label required">Niveau BAC</label>
+                    <input type="text" name="niveau_bac" class="form-control" placeholder="Ex: Baccalauréat" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label required">Série</label>
+                    <input type="text" name="serie_bac" class="form-control" placeholder="Ex: Sciences Expérimentales" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label required">Établissement</label>
+                    <input type="text" name="etablissement_bac" class="form-control" placeholder="Nom de l'établissement" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label required">Année d'obtention</label>
+                    <input type="number" name="annee_bac" class="form-control" placeholder="2024" min="1950" max="2025" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label required">Résultat/Mention</label>
+                    <input type="text" name="resultat_bac" class="form-control" placeholder="Ex: Mention Bien" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Études supérieures (si applicable)</label>
+                <textarea name="etudes_superieures" class="form-control" rows="3" placeholder="Décrivez vos études supérieures si vous en avez fait"></textarea>
+            </div>
+        </div>
+
+        <!-- PIÈCES À APPORTER EN PRÉSENTIEL -->
+        <div class="section-card">
+            <h4 class="section-title">
+                <i class="fas fa-file-alt"></i> Pièces à Apporter en Présentiel
+            </h4>
+            
+            <div class="documents-info">
+                <h5 class="mb-3">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    Liste des documents à préparer
+                </h5>
+                <p><strong>Vous devrez apporter les documents suivants lors de votre rendez-vous au campus :</strong></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul>
+                            <li><i class="fas fa-check-circle text-success"></i> Copie légalisée du dernier diplôme obtenu</li>
+                            <li><i class="fas fa-check-circle text-success"></i> Copie de la pièce d'identité</li>
+                            <li><i class="fas fa-check-circle text-success"></i> 2 photos d'identité récentes</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li><i class="fas fa-check-circle text-success"></i> Certificat de naissance</li>
+                            <li><i class="fas fa-check-circle text-success"></i> Relevés de notes (2 dernières années)</li>
+                            <li><i class="fas fa-check-circle text-success"></i> Frais de dossier</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="important-note">
+                    <h6><i class="fas fa-info-circle"></i> <strong>Important :</strong></h6>
+                    <p class="mb-2">
+                        Après avoir soumis ce formulaire, vous recevrez un email de confirmation avec :
+                    </p>
+                    <ul class="mb-0">
+                        <li>📅 La date et l'heure de votre rendez-vous</li>
+                        <li>📍 L'adresse exacte du campus</li>
+                        <li>💰 Le montant exact des frais de dossier</li>
+                        <li>📋 Les instructions détaillées pour finaliser</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="form-check mt-4">
+                <input type="checkbox" name="documents_confirmes" class="form-check-input" id="docs" required>
+                <label class="form-check-label" for="docs">
+                    <strong>J'ai pris connaissance de la liste des documents à apporter lors de mon rendez-vous *</strong>
+                </label>
+            </div>
+        </div>
+
+        <!-- BOUTON SUBMIT -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-submit">
+                <i class="fas fa-paper-plane"></i> Soumettre la pré-inscription
+            </button>
+        </div>
+        
+        <p class="text-center text-muted mt-3">
+            <small>* Champs obligatoires</small>
+        </p>
+    </form>
+</div>
+{% endblock %}
