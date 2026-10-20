@@ -16,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-2d0km2gc#8ljv&8&ezs+r
 DEBUG = config('DEBUG', default=True, cast=bool)
 print("DEBUG =", DEBUG)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'technova-1-rjs9.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'technova-production-851a.up.railway.app']
 
 # -----------------------
 # Applications
